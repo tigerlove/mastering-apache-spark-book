@@ -1,26 +1,28 @@
-== Deploy Mode
+== 部署模式
 
-*Deploy mode* specifies the location of where link:spark-driver.adoc[driver] executes in the link:spark-deployment-environments.adoc[deployment environment].
+*部署模式* 指定了 link:spark-driver.adoc[driver]
+在link:spark-deployment-environments.adoc[部署环境]中执行的地址.
 
-Deploy mode can be one of the following options:
+Deploy 模式有以下几种:
 
-* `client` (default) - the driver runs on the machine that the Spark application was launched.
-* `cluster` - the driver runs on a random node in a cluster.
+* `client` (默认) - driver 在Spark application 启动的机器上执行.
+* `cluster` - driver 在集群的随机节点上执行.
 
-NOTE: `cluster` deploy mode is only available for link:spark-cluster.adoc[non-local cluster deployments].
+NOTE: `cluster` 仅对 link:spark-cluster.adoc[non-local cluster 部署模式有用].
 
-You can control the deploy mode of a Spark application using link:spark-submit.adoc#deploy-mode[spark-submit's `--deploy-mode` command-line option] or <<spark.submit.deployMode, `spark.submit.deployMode` Spark property>>.
+你可以通过link:spark-submit.adoc#deploy-mode[spark-submit的 `--deploy-mode` 命令行参数]
+控制Spark应用的部署模式或者 <<spark.submit.deployMode, `spark.submit.deployMode` Spark 属性>>.
 
-NOTE: `spark.submit.deployMode` setting can be `client` or `cluster`.
+NOTE: `spark.submit.deployMode` 的设置可以是 `client` 或 `cluster`.
 
-=== [[client]] Client Deploy Mode
+=== [[client]] Client 部署模式
 
 CAUTION: FIXME
 
-=== [[cluster]] Cluster Deploy Mode
+=== [[cluster]] Cluster 部署模式
 
 CAUTION: FIXME
 
 === [[spark.submit.deployMode]] spark.submit.deployMode
 
-`spark.submit.deployMode` (default: `client`) can be `client` or `cluster`.
+`spark.submit.deployMode` (默认: `client`) 可以是`client` 或 `cluster`.

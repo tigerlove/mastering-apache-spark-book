@@ -1,33 +1,36 @@
-== Spark Properties and spark-defaults.conf Properties File
+== Spark 属性和 spark-defaults.conf 属性文件
+*Spark 属性* 用来设置你的Spark 应用环境.
 
-*Spark properties* are the means of tuning the execution environment for your Spark applications.
+默认的Spark 属性文件是<<spark-defaults-conf, `$SPARK_HOME/conf/spark-defaults.conf`>>
+它可以被 ``spark-submit``的 link:spark-submit.adoc#properties-file[`--properties-file` 命令行参数重写].
 
-The default Spark properties file is <<spark-defaults-conf, `$SPARK_HOME/conf/spark-defaults.conf`>> that could be overriden using ``spark-submit``'s link:spark-submit.adoc#properties-file[`--properties-file` command-line option].
-
-.Environment Variables
+.环境变量
 [options="header",width="100%"]
 |===
 | Environment Variable | Default Value | Description
-| `SPARK_CONF_DIR` | `${SPARK_HOME}/conf` | Spark's configuration directory (with `spark-defaults.conf`)
+| `SPARK_CONF_DIR` | `${SPARK_HOME}/conf` | Spark的配置目录 (通过 `spark-defaults.conf`)
 |===
 
-TIP: Read the official documentation of Apache Spark on http://spark.apache.org/docs/latest/configuration.html[Spark Configuration].
+TIP: 读Apache Spark的 http://spark.apache.org/docs/latest/configuration.html[Spark 配置官方文档].
 
-=== [[spark-defaults-conf]] `spark-defaults.conf` -- Default Spark Properties File
+=== [[spark-defaults-conf]] `spark-defaults.conf` -- 默认的 Spark 属性文件
 
-`spark-defaults.conf` (under `SPARK_CONF_DIR` or `$SPARK_HOME/conf`) is the default properties file with the Spark properties of your Spark applications.
+`spark-defaults.conf` (在 `SPARK_CONF_DIR` or `$SPARK_HOME/conf`)
+是默认的属性文件.
 
-NOTE: `spark-defaults.conf` is loaded by link:spark-AbstractCommandBuilder.adoc#loadPropertiesFile[AbstractCommandBuilder's `loadPropertiesFile` internal method].
+NOTE: `spark-defaults.conf`被
+link:spark-AbstractCommandBuilder.adoc#loadPropertiesFile[AbstractCommandBuilder的`loadPropertiesFile`内部方法]加载.
 
-=== [[getDefaultPropertiesFile]] Calculating Path of Default Spark Properties -- `Utils.getDefaultPropertiesFile` method
+=== [[getDefaultPropertiesFile]] 计算默认 Spark 属性路径 -- `Utils.getDefaultPropertiesFile` method
 
 [source, scala]
 ----
 getDefaultPropertiesFile(env: Map[String, String] = sys.env): String
 ----
 
-`getDefaultPropertiesFile` calculates the absolute path to `spark-defaults.conf` properties file that can be either in directory specified by `SPARK_CONF_DIR` environment variable or `$SPARK_HOME/conf` directory.
+`getDefaultPropertiesFile` 计算 `spark-defaults.conf` 属性文件的绝对路径,
+它可以被`SPARK_CONF_DIR` 环境变量或者在`$SPARK_HOME/conf`下.
 
-NOTE: `getDefaultPropertiesFile` is a part of `private[spark]` `org.apache.spark.util.Utils` object.
+NOTE: `getDefaultPropertiesFile` 是 `private[spark]` `org.apache.spark.util.Utils` 对象的部分.
 
 === Environment Variables

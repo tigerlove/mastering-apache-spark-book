@@ -1,19 +1,20 @@
-== [[SparkConf]] SparkConf -- Spark Application's Configuration
+== [[SparkConf]] SparkConf -- Spark 应用的配置
 
-TIP: Refer to  http://spark.apache.org/docs/latest/configuration.html[Spark Configuration] in the official documentation for an extensive coverage of how to configure Spark and user programs.
+TIP: 参考  http://spark.apache.org/docs/latest/configuration.html[Spark 配置]
+ 官方文档如何配置spark和用户程序的说明.
 
-[CAUTION]
+[注意]
 ====
 TODO
 
-* Describe `SparkConf` object for the application configuration.
-* the default configs
-* system properties
+* 描述 `SparkConf` 对象对应用的配置 for the application configuration.
+* 默认配置
+* 系统属性
 ====
 
-There are three ways to configure Spark and user programs:
+有三种方法配置 Spark 和用户程序:
 
-* Spark Properties - use link:spark-webui.adoc[Web UI] to learn the current properties.
+* Spark 属性 - 使用 link:spark-webui.adoc[Web UI] 查看当前配置.
 * ...
 
 === [[setIfMissing]] `setIfMissing` Method
@@ -28,17 +29,24 @@ CAUTION: FIXME
 
 CAUTION: FIXME
 
-=== [[mandatory-settings]] Mandatory Settings - spark.master and spark.app.name
+=== [[mandatory-settings]] 强制性设置 - spark.master 和 spark.app.name
 
-There are two mandatory settings of any Spark application that have to be defined before this Spark application could be run -- <<spark.master, spark.master>> and <<spark.app.name, spark.app.name>>.
+对于任何Spark应用有2个强制性的设置 -- <<spark.master, spark.master>> 和
+ <<spark.app.name, spark.app.name>>.
 
-=== Spark Properties
+=== Spark 属性
 
-Every user program starts with creating an instance of `SparkConf` that holds the link:spark-deployment-environments.adoc#master-urls[master URL] to connect to (`spark.master`), the name for your Spark application (that is later displayed in link:spark-webui.adoc[web UI] and becomes `spark.app.name`) and other Spark properties required for proper runs. The instance of `SparkConf` can be used to create link:spark-SparkContext.adoc[SparkContext].
+每个用户程序开始于创建一个 `SparkConf` 实例来配置
+ link:spark-deployment-environments.adoc#master-urls[master URL]
+来链接 (`spark.master`),
+Spark 应用的名字 (之后显示为在`spark.app.name` link:spark-webui.adoc[web UI]中)，
+以及一些运行应用必要的配置.
+`SparkConf` 实例可以被用来创建 link:spark-SparkContext.adoc[SparkContext].
 
 [TIP]
 ====
-Start link:spark-shell.adoc[Spark shell] with `--conf spark.logConf=true` to log the effective Spark configuration as INFO when SparkContext is started.
+通过 `--conf spark.logConf=true`开始一个 link:spark-shell.adoc[Spark shell]
+会在SparkContext启动的时候纪录下有效的Spark 配置.
 
 ```
 $ ./bin/spark-shell --conf spark.logConf=true
@@ -55,10 +63,10 @@ spark.submit.deployMode=client
 ...
 ```
 
-Use `sc.getConf.toDebugString` to have a richer output once SparkContext has finished initializing.
+在SparkContext初始化以后, 可以通过 `sc.getConf.toDebugString` 获得更加丰富的输出.
 ====
 
-You can query for the values of Spark properties in link:spark-shell.adoc[Spark shell] as follows:
+你可以像下面一样通过link:spark-shell.adoc[Spark shell] 查询Spark 属性的值:
 
 ```
 scala> sc.getConf.getOption("spark.local.dir")
@@ -71,17 +79,21 @@ scala> sc.getConf.get("spark.master")
 res2: String = local[*]
 ```
 
-=== Setting up Spark Properties
+=== 设置 Spark 属性
 
-There are the following places where a Spark application looks for Spark properties (in the order of importance from the least important to the most important):
+一个 Spark 应用会从下列地点寻找 Spark 的属性
+(按顺序):
 
-* `conf/spark-defaults.conf` - the configuration file with the default Spark properties. Read link:spark-properties.adoc#spark-defaults-conf[spark-defaults.conf].
-* `--conf` or `-c` - the command-line option used by link:spark-submit.adoc[spark-submit] (and other shell scripts that use `spark-submit` or `spark-class` under the covers, e.g. `spark-shell`)
+* `conf/spark-defaults.conf` -  Spark 默认配置.
+阅读 link:spark-properties.adoc#spark-defaults-conf[spark-defaults.conf].
+
+* `--conf` or `-c` -  link:spark-submit.adoc[spark-submit]命令行参数
+ (和其他使用 `spark-submit`的shell scripts 或者 `spark-class` , e.g. `spark-shell`)
 * `SparkConf`
 
-=== [[default-configuration]] Default Configuration
+=== [[default-configuration]] 默认配置
 
-The default Spark configuration is created when you execute the following code:
+当你使用一下代码的时候默认 Spark 配置被创建:
 
 [source, scala]
 ----
@@ -89,9 +101,9 @@ import org.apache.spark.SparkConf
 val conf = new SparkConf
 ----
 
-It simply loads `spark.*` system properties.
+它简单的加载了 `spark.*` 开头的系统属性.
 
-You can use `conf.toDebugString` or `conf.getAll` to have the `spark.*` system properties loaded printed out.
+你可以使用 `conf.toDebugString` 或 `conf.getAll` 打印出 加载的`spark.*` 系统属性.
 
 [source, scala]
 ----
@@ -112,7 +124,7 @@ spark.master=local[*]
 spark.submit.deployMode=client
 ----
 
-=== [[getAppId]] Unique Identifier of Spark Application -- `getAppId` Method
+=== [[getAppId]] Unique Identifier of Spark 应用的唯一标识 -- `getAppId` 方法
 
 [source, scala]
 ----
@@ -123,16 +135,19 @@ getAppId: String
 
 [NOTE]
 ====
-`getAppId` is used when:
+`getAppId` 在以下会被使用到:
 
-* `NettyBlockTransferService` link:spark-NettyBlockTransferService.adoc#init[is initialized] (and creates a link:spark-NettyBlockRpcServer.adoc#creating-instance[NettyBlockRpcServer] as well as link:spark-NettyBlockTransferService.adoc#appId[saves the identifier for later use]).
+* `NettyBlockTransferService` link:spark-NettyBlockTransferService.adoc#init[被初始化的时候]
+ (创造 link:spark-NettyBlockRpcServer.adoc#creating-instance[NettyBlockRpcServer],
+ 此外 link:spark-NettyBlockTransferService.adoc#appId[保存id以后使用]).
 
-* `Executor` link:spark-Executor.adoc#creating-instance[is created] (in non-local mode and link:spark-blockmanager.adoc#initialize[requests `BlockManager` to initialize]).
+* `Executor` link:spark-Executor.adoc#creating-instance[被创建的时候]
+(在 non-local 模式和 link:spark-blockmanager.adoc#initialize[要求 `BlockManager` 去初始化]).
 ====
 
 === [[settings]] Settings
 
-.Spark Properties
+.Spark 属性
 [cols="1,1,2",options="header",width="100%"]
 |===
 | Spark Property
@@ -145,12 +160,17 @@ getAppId: String
 
 | [[spark.app.id]] `spark.app.id`
 | link:spark-TaskScheduler.adoc#applicationId[TaskScheduler.applicationId()]
-| Unique identifier of a Spark application that Spark uses to uniquely identify link:spark-MetricsSystem.adoc#buildRegistryName[metric sources].
+| Spark 用来标识 link:spark-MetricsSystem.adoc#buildRegistryName[metric sources]
+| 唯一性的标识.
 
-Set when `SparkContext` link:spark-sparkcontext-creating-instance-internals.adoc#spark.app.id[is created] (right after `TaskScheduler` link:spark-sparkcontext-creating-instance-internals.adoc#taskScheduler-start[is started] that actually gives the identifier).
+当`SparkContext`
+link:spark-sparkcontext-creating-instance-internals.adoc#spark.app.id[被创建的时候]
+(在`TaskScheduler`
+link:spark-sparkcontext-creating-instance-internals.adoc#taskScheduler-start[被启动]
+实际上给出了唯一标识).
 
 | [[spark.app.name]] `spark.app.name`
 |
-| Application Name
+| 应用名称
 
 |===
