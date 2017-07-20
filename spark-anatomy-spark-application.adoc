@@ -1,14 +1,19 @@
-== Anatomy of Spark Application
+== Spark 应用解剖
 
-Every Spark application starts from creating link:spark-SparkContext.adoc[SparkContext].
+每一个spark应用都开始于创建一个 link:spark-SparkContext.adoc[SparkContext].
 
-NOTE: Without link:spark-SparkContext.adoc[SparkContext] no computation (as a Spark job) can be started.
+NOTE: 没有 link:spark-SparkContext.adoc[SparkContext] 就没有计算 (比如 Spark job).
 
-NOTE: A Spark application is an instance of SparkContext. Or, put it differently, a Spark context constitutes a Spark application.
+NOTE: 一个 Spark 应用是一个 SparkContext的实例. 或者, 换种方式, 一个 Spark context
+构造了一个 Spark 应用.
 
-A Spark application is uniquely identified by a pair of the link:spark-SparkContext.adoc#applicationId[application] and link:spark-SparkContext.adoc#applicationAttemptId[application attempt] ids.
+一个Spark 应用会被
+link:spark-SparkContext.adoc#applicationId[application]
+和 link:spark-SparkContext.adoc#applicationAttemptId[application attempt] ids
+两者唯一标识.
 
-For it to work, you have to link:spark-SparkConf.adoc[create a Spark configuration using SparkConf] or use a link:spark-SparkContext.adoc#creating-instance[custom SparkContext constructor].
+为了让它工作, 你必须 link:spark-SparkConf.adoc[通过SparkConf创造一个spark的配置]
+或者使用 link:spark-SparkContext.adoc#creating-instance[自定义的 SparkContext 构造器].
 
 [source, scala]
 ----
@@ -36,21 +41,30 @@ object SparkMeApp {
   }
 }
 ----
-<1> link:spark-deployment-environments.adoc#master-urls[Master URL] to connect the application to
-<2> Create Spark configuration
-<3> Create Spark context
-<4> Create `lines` RDD
-<5> Execute `count` action
+<1> link:spark-deployment-environments.adoc#master-urls[Master URL] 指定应用链接到哪里
+<2> 创造 Spark 配置
+<3> 创造 Spark context
+<4> 创造 `lines` RDD
+<5> 执行 `count` 操作
 
-TIP: link:spark-shell.adoc[Spark shell] creates a Spark context and SQL context for you at startup.
+TIP: link:spark-shell.adoc[Spark shell]
+会为你在启动的时候创造了一个 Spark context 和 SQL context.
 
-When a Spark application starts (using link:spark-submit.adoc[spark-submit script] or as a standalone application), it connects to link:spark-master.adoc[Spark master] as described by link:spark-deployment-environments.adoc#master-urls[master URL]. It is part of link:spark-SparkContext.adoc#creating-instance[Spark context's initialization].
+当一个 Spark 应用开始 (使用 link:spark-submit.adoc[spark-submit 脚步]
+或是作为一个独立的应用),
+它连接到link:spark-deployment-environments.adoc#master-urls[master URL] 指定的
+link:spark-master.adoc[Spark master].
+这是link:spark-SparkContext.adoc#creating-instance[Spark context初始化]的一部分.
 
-.Submitting Spark application to master using master URL
+提交 Spark application 到 master 使用 master URL
 image::diagrams/spark-submit-master-workers.png[align="center"]
 
-NOTE: Your Spark application can run locally or on the cluster which is based on the cluster manager and the deploy mode (`--deploy-mode`). Refer to link:spark-deployment-environments.adoc[Deployment Modes].
+NOTE: 你的 Spark 应用可以跑在本地或是集群上,这要看集群管理器和你的部署方式(`--deploy-mode`).
+参考 link:spark-deployment-environments.adoc[部署方式].
 
-You can then link:spark-rdd.adoc#creating-rdds[create RDDs], link:spark-rdd-transformations.adoc[transform them to other RDDs] and ultimately link:spark-rdd-actions.adoc[execute actions]. You can also link:spark-rdd-caching.adoc[cache interim RDDs] to speed up data processing.
+然后,你可以 link:spark-rdd.adoc#creating-rdds[创建 RDDs],
+link:spark-rdd-transformations.adoc[转换他们到别的RDDs] 并最终
+link:spark-rdd-actions.adoc[执行操作].
+你可以 link:spark-rdd-caching.adoc[缓存中间RDDs] 来加快数据的处理.
 
-After all the data processing is completed, the Spark application finishes by link:spark-SparkContext.adoc#stopping[stopping the Spark context].
+在所有数据处理完成的时候, Spark 应用完成通过link:spark-SparkContext.adoc#stopping[停止Spark context].
